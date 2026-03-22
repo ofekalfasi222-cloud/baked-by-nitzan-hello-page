@@ -4,7 +4,9 @@
 
 const WHATSAPP_BASE = 'https://wa.me/9720505851612?text=';
 
-const products = [
+let products = [];
+
+const fallbackProducts = [
   {
     id: 1,
     name: 'אלפחורס',
@@ -348,6 +350,38 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
+// --- Firebase Integration ---
+
+async function loadProductsFromFirebase() {
+  try {
+    if (typeof firebase === 'undefined' || !firebaseConfig || firebaseConfig.apiKey === 'YOUR_API_KEY') {
+      throw new Error('Firebase not configured');
+    }
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.firestore();
+    const snapshot = await db.collection('products').orderBy('order', 'asc').get();
+
+    if (snapshot.empty) {
+      throw new Error('No products in Firestore');
+    }
+
+    products = [];
+    snapshot.forEach(doc => {
+      products.push({ id: doc.id, ...doc.data() });
+    });
+
+    console.log(`Loaded ${products.length} products from Firebase`);
+    renderProducts();
+  } catch (err) {
+    console.log('Firebase unavailable, using fallback products:', err.message);
+    products = fallbackProducts;
+    renderProducts();
+  }
+}
+
 // --- Init ---
 
-renderProducts();
+loadProductsFromFirebase();
