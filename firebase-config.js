@@ -1,11 +1,8 @@
-// Firebase Configuration
-// INSTRUCTIONS: Replace the values below with your Firebase project config
-// Go to Firebase Console > Project Settings > Your apps > Web app > Config
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.firebasestorage.app",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDjZ9uAyN6kwFUa6nFV7BE0fLMu0EdlEtI",
+  authDomain: "baked-by-nitzan.firebaseapp.com",
+  projectId: "baked-by-nitzan",
+  storageBucket: "baked-by-nitzan.firebasestorage.app",
+  messagingSenderId: "42458052644",
+  appId: "1:42458052644:web:bda910e4abab41294580b1"
 };
