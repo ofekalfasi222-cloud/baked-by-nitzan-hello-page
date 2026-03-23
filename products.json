@@ -5,8 +5,16 @@
     "category": "cookies",
     "categoryLabel": "עוגיות",
     "price": 60,
-    "description": "10 יחידות אלפחורס עם מילוי דולסה דה לצ'ה וקוקוס. עוגיית החמאה הקלאסית שנמסה בפה.",
-    "image": "images/alfachores.png"
+    "description": "10 יחידות אלפחורס עם מילוי ריבת חלב איכותית וקוקוס. עוגיית החמאה הקלאסית שנמסה בפה.",
+    "image": "images/product-1774227187773.jpeg",
+    "images": [
+      "images/product-1774227187773.jpeg",
+      "images/product-1774227189170.jpeg",
+      "images/product-1774227191117.jpeg",
+      "images/product-1774227193060.jpeg",
+      "images/product-1774227195108.jpeg",
+      "images/product-1774227196442.jpeg"
+    ]
   },
   {
     "id": 2,
