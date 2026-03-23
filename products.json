@@ -171,5 +171,18 @@
     "images": [
       "images/product-1774257012608-bsyr7-6.jpeg"
     ]
+  },
+  {
+    "id": 1774257180669,
+    "name": "עוגיות ענקיות",
+    "category": "cookies",
+    "categoryLabel": "עוגיות",
+    "price": 170,
+    "description": "עוגיות ענקיות בקוטר 18 🍪\nקריספי מבחוץ ורך מבפנים בטעמים ומילויים לבחירה במעמד ההזמנה בוואצפ . \nניתן לקבל בצורת עיגול/ריבוע/לב .",
+    "image": "images/product-1774257175960-66a4w-7.jpeg",
+    "images": [
+      "images/product-1774257175960-66a4w-7.jpeg",
+      "images/product-1774257178516-z5h3e-8.jpeg"
+    ]
   }
 ]
