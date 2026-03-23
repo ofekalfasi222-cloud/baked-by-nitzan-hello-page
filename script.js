@@ -382,17 +382,13 @@ function openModal(product) {
 
     function goToSlide(idx) {
       currentIdx = idx;
-      track.scrollTo({ left: idx * track.offsetWidth, behavior: 'smooth' });
+      track.style.transform = `translateX(${idx * 100}%)`;
       allDots.forEach((d, i) => d.classList.toggle('active', i === idx));
     }
 
     document.getElementById('modalPrev').addEventListener('click', () => goToSlide((currentIdx - 1 + images.length) % images.length));
     document.getElementById('modalNext').addEventListener('click', () => goToSlide((currentIdx + 1) % images.length));
     allDots.forEach(d => d.addEventListener('click', () => goToSlide(parseInt(d.dataset.idx))));
-    track.addEventListener('scroll', () => {
-      const idx = Math.round(track.scrollLeft / track.offsetWidth);
-      if (idx !== currentIdx) { currentIdx = idx; allDots.forEach((d, i) => d.classList.toggle('active', i === idx)); }
-    });
   }
 
   document.getElementById('modalCategory').textContent = product.categoryLabel;
