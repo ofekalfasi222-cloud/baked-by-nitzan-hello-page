@@ -350,16 +350,27 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// --- Load products from JSON file ---
+// --- Load products (GitHub API for instant updates, fallback to local file) ---
 
 async function loadProductsData() {
   try {
-    const res = await fetch('products.json?v=' + Date.now());
-    if (!res.ok) throw new Error('Failed to fetch');
-    products = await res.json();
+    const res = await fetch('https://api.github.com/repos/ofekalfasi222-cloud/bakedbynitzan/contents/products.json', {
+      headers: { 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (!res.ok) throw new Error('API ' + res.status);
+    const data = await res.json();
+    const raw = atob(data.content.replace(/\n/g, ''));
+    const bytes = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i++) bytes[i] = raw.charCodeAt(i);
+    products = JSON.parse(new TextDecoder().decode(bytes));
   } catch (err) {
-    console.log('Using fallback products:', err.message);
-    products = fallbackProducts;
+    try {
+      const res = await fetch('products.json?v=' + Date.now());
+      if (res.ok) products = await res.json();
+      else throw new Error('Local fetch failed');
+    } catch (err2) {
+      products = fallbackProducts;
+    }
   }
   renderProducts();
 }
