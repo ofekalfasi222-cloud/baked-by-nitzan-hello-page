@@ -211,6 +211,8 @@ function createProductCard(product) {
 
 function renderProducts(filter = 'all') {
   const grid = document.getElementById('productsGrid');
+  const loader = document.getElementById('productsLoading');
+  if (loader) loader.remove();
   grid.innerHTML = '';
 
   const filtered = filter === 'all'
@@ -550,7 +552,26 @@ async function loadSiteSettings() {
   if (s.footerText) { const el = document.getElementById('footerText'); if (el) el.innerHTML = s.footerText; }
 }
 
+// --- Scroll Reveal Animation ---
+
+function initScrollReveal() {
+  const elements = document.querySelectorAll('.about-content, .custom-order-box, .faq-list, .contact-cards, .section-title, .section-subtitle');
+  elements.forEach(el => el.classList.add('reveal'));
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  elements.forEach(el => observer.observe(el));
+}
+
 // --- Init ---
 
 loadSiteSettings();
 loadProductsData();
+initScrollReveal();
