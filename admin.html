@@ -345,7 +345,8 @@
 
       products.forEach((p, i) => {
         const imgs = p.images || (p.image ? [p.image] : []);
-        const thumb = imgs[0] || 'images/logo.png';
+        const rawThumb = imgs[0] || '';
+        const thumb = rawThumb ? (rawThumb.startsWith('http') ? rawThumb : `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${rawThumb}`) : 'images/logo.png';
         const imgCount = imgs.length > 1 ? ` (${imgs.length} תמונות)` : '';
         const item = document.createElement('div');
         item.className = 'product-item';
@@ -396,6 +397,11 @@
 
     function closeForm() { document.getElementById('formOverlay').classList.remove('active'); }
 
+    function rawUrl(path) {
+      if (!path || path.startsWith('http') || path.startsWith('data:')) return path;
+      return `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${path}`;
+    }
+
     function renderImagesList() {
       const container = document.getElementById('imagesContainer');
       container.innerHTML = '';
@@ -403,7 +409,7 @@
       list.className = 'images-list';
 
       existingImages.forEach((src, i) => {
-        list.innerHTML += `<div class="image-thumb"><img src="${src}"><button class="remove-img" onclick="removeExistingImage(${i})">&times;</button></div>`;
+        list.innerHTML += `<div class="image-thumb"><img src="${rawUrl(src)}"><button class="remove-img" onclick="removeExistingImage(${i})">&times;</button></div>`;
       });
       pendingImages.forEach((img, i) => {
         list.innerHTML += `<div class="image-thumb"><img src="${img.dataUrl}"><button class="remove-img" onclick="removePendingImage(${i})">&times;</button></div>`;

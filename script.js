@@ -127,9 +127,14 @@ function createWhatsAppLink(productName) {
   return `${WHATSAPP_BASE}${msg}`;
 }
 
+function resolveImageUrl(path) {
+  if (!path || path.startsWith('http')) return path || 'images/logo.png';
+  return `https://raw.githubusercontent.com/ofekalfasi222-cloud/bakedbynitzan/main/${path}`;
+}
+
 function getProductImages(product) {
-  if (product.images && product.images.length) return product.images;
-  if (product.image) return [product.image];
+  if (product.images && product.images.length) return product.images.map(resolveImageUrl);
+  if (product.image) return [resolveImageUrl(product.image)];
   return ['images/logo.png'];
 }
 
