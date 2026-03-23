@@ -38,12 +38,15 @@
   },
   {
     "id": 4,
-    "name": "מגולגלות קינדר",
+    "name": "מגולגלות קקאו קינדר",
     "category": "cookies",
     "categoryLabel": "עוגיות",
     "price": 76,
+    "description": "12 יח׳ מגולגלות קקאו קינדר\n בצק חמאה קקאו עם שכבות קרם קינדר ואצבעות קינדר.",
     "image": "images/megulgalot-kinder.png",
-    "description": "12 יחידות מגולגלות קקאו במילוי קינדר. בצק שוקולד כהה עם שכבות קרם קינדר לבן."
+    "images": [
+      "images/megulgalot-kinder.png"
+    ]
   },
   {
     "id": 5,
