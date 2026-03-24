@@ -278,6 +278,36 @@ filterBtns.forEach(btn => {
 const modalOverlay = document.getElementById('modalOverlay');
 const modalClose = document.getElementById('modalClose');
 
+function isHighContrast() {
+  return document.documentElement.classList.contains('a11y-high-contrast');
+}
+
+function applyHighContrastToViewer(viewer, info) {
+  if (!isHighContrast()) return;
+  viewer.style.background = '#111';
+  info.style.background = '#111';
+  info.style.color = '#fff';
+  info.querySelectorAll('div, h3, p, span, a').forEach(function(el) {
+    if (el.tagName === 'A' && el.classList.contains('mv-order-btn')) return;
+    el.style.color = '#fff';
+  });
+}
+
+function applyHighContrastToModal() {
+  if (!isHighContrast()) return;
+  var modal = document.querySelector('.modal');
+  var modalInfo = document.querySelector('.modal-info');
+  if (modal) modal.style.background = '#111';
+  if (modalInfo) {
+    modalInfo.style.background = '#111';
+    modalInfo.style.color = '#fff';
+    modalInfo.querySelectorAll('*').forEach(function(el) {
+      if (el.classList.contains('modal-order-btn')) return;
+      el.style.color = '#fff';
+    });
+  }
+}
+
 function isMobile() {
   return window.innerWidth <= 768;
 }
@@ -321,12 +351,13 @@ function openMobileViewer(product) {
   container.innerHTML = imageHTML;
 
   const info = document.createElement('div');
+  info.className = 'mv-info';
   Object.assign(info.style, { padding: '20px', fontFamily: "'Heebo', sans-serif", direction: 'rtl', textAlign: 'right' });
   info.innerHTML = `
-    <div style="font-size:0.8rem;color:#999;letter-spacing:0.1em;margin-bottom:6px;">${product.categoryLabel}</div>
-    <h3 style="font-family:'Frank Ruhl Libre',serif;font-size:1.5rem;font-weight:900;margin:0 0 12px;">${product.name}</h3>
-    <p style="color:#666;font-size:0.95rem;line-height:1.7;margin:0 0 20px;">${product.description}</p>
-    <div style="font-family:'Frank Ruhl Libre',serif;font-size:1.8rem;font-weight:900;margin-bottom:20px;">${formatPriceHTML(product, 'large')}</div>
+    <div class="mv-category" style="font-size:0.8rem;letter-spacing:0.1em;margin-bottom:6px;">${product.categoryLabel}</div>
+    <h3 class="mv-title" style="font-family:'Frank Ruhl Libre',serif;font-size:1.5rem;font-weight:900;margin:0 0 12px;">${product.name}</h3>
+    <p class="mv-desc" style="font-size:0.95rem;line-height:1.7;margin:0 0 20px;">${product.description}</p>
+    <div class="mv-price" style="font-family:'Frank Ruhl Libre',serif;font-size:1.8rem;font-weight:900;margin-bottom:20px;">${formatPriceHTML(product, 'large')}</div>
     <a href="${createWhatsAppLink(product.name)}" target="_blank" rel="noopener"
        onclick="typeof gtag==='function'&&gtag('event','whatsapp_order',{product_name:'${product.name.replace(/'/g,"\\'")}',source:'mobile'})"
        style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;background:#000;color:#fff;text-decoration:none;border-radius:50px;font-size:1rem;font-weight:700;font-family:'Heebo',sans-serif;">
@@ -347,13 +378,17 @@ function openMobileViewer(product) {
   document.body.style.overflow = 'hidden';
   viewer.scrollTop = 0;
 
+  applyHighContrastToViewer(viewer, info);
+
   if (images.length > 1) {
     const track = document.getElementById('mvTrack');
     const dots = document.querySelectorAll('.mv-dot');
     if (track && dots.length) {
       track.addEventListener('scroll', () => {
         const idx = Math.round(track.scrollLeft / track.offsetWidth);
-        dots.forEach((d, i) => { d.style.background = i === idx ? '#000' : '#ccc'; d.classList.toggle('active', i === idx); });
+        const dotBg = isHighContrast() ? '#fff' : '#000';
+        const dotInactive = isHighContrast() ? '#555' : '#ccc';
+        dots.forEach((d, i) => { d.style.background = i === idx ? dotBg : dotInactive; d.classList.toggle('active', i === idx); });
       });
     }
   }
@@ -405,6 +440,7 @@ function openModal(product) {
 
   modalOverlay.classList.add('active');
   document.body.style.overflow = 'hidden';
+  applyHighContrastToModal();
 }
 
 function closeModal() {

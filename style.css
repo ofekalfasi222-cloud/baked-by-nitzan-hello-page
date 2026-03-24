@@ -1916,6 +1916,10 @@ html, body {
 html.a11y-large-text { font-size: 120% !important; }
 html.a11y-xl-text { font-size: 140% !important; }
 
+/* Mobile viewer default colors */
+.mv-category { color: #999; }
+.mv-desc { color: #666; }
+
 /* Accessibility mode: high contrast */
 html.a11y-high-contrast body {
   background: #000 !important;
@@ -1928,12 +1932,14 @@ html.a11y-high-contrast .contact-card,
 html.a11y-high-contrast .modal,
 html.a11y-high-contrast .modal-info,
 html.a11y-high-contrast .modal-body,
+html.a11y-high-contrast .modal-overlay,
 html.a11y-high-contrast .a11y-panel,
 html.a11y-high-contrast .cookie-banner,
 html.a11y-high-contrast .product-card-content,
 html.a11y-high-contrast .product-card-footer,
 html.a11y-high-contrast #mobileViewer,
-html.a11y-high-contrast #mobileViewer > div {
+html.a11y-high-contrast #mobileViewer > *,
+html.a11y-high-contrast #mobileViewer .mv-info {
   background: #111 !important;
   color: #fff !important;
   border-color: #555 !important;
@@ -1941,15 +1947,21 @@ html.a11y-high-contrast #mobileViewer > div {
 html.a11y-high-contrast .product-card-title,
 html.a11y-high-contrast .product-card-description,
 html.a11y-high-contrast .product-card-category,
+html.a11y-high-contrast .product-card-price,
 html.a11y-high-contrast .modal-title,
 html.a11y-high-contrast .modal-description,
 html.a11y-high-contrast .modal-category,
 html.a11y-high-contrast .modal-price,
 html.a11y-high-contrast .modal-info *,
 html.a11y-high-contrast #mobileViewer *,
+html.a11y-high-contrast #mobileViewer .mv-category,
+html.a11y-high-contrast #mobileViewer .mv-title,
+html.a11y-high-contrast #mobileViewer .mv-desc,
+html.a11y-high-contrast #mobileViewer .mv-price,
 html.a11y-high-contrast h1, html.a11y-high-contrast h2, html.a11y-high-contrast h3,
 html.a11y-high-contrast p, html.a11y-high-contrast span, html.a11y-high-contrast li,
-html.a11y-high-contrast div {
+html.a11y-high-contrast div,
+html.a11y-high-contrast label {
   color: #fff !important;
 }
 html.a11y-high-contrast a { color: #6ec6ff !important; }
