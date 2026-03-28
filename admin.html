@@ -28,6 +28,10 @@
     .admin-header h1 { font-size: 1.1rem; font-weight: 700; }
     .admin-header-actions { display: flex; gap: 12px; align-items: center; }
     .btn-logout { background: none; border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 0.85rem; }
+    .btn-backup { background: none; border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 0.85rem; }
+    .btn-backup:hover { background: rgba(255,255,255,0.1); }
+    .btn-backup:disabled { opacity: 0.5; cursor: not-allowed; }
+    .backup-status { color: rgba(255,255,255,0.6); font-size: 0.75rem; }
     .btn-back-site { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.85rem; }
 
     .admin-content { max-width: 900px; margin: 0 auto; padding: 24px; }
@@ -144,6 +148,8 @@
     <header class="admin-header">
       <h1>ניהול קטלוג - ניצן משהו מתוק</h1>
       <div class="admin-header-actions">
+        <span class="backup-status" id="backupStatus"></span>
+        <button class="btn-backup" id="backupBtn" title="גיבוי ידני">💾 גיבוי</button>
         <a href="index.html" class="btn-back-site" target="_blank">צפייה באתר</a>
         <button class="btn-logout" id="logoutBtn">התנתקות</button>
       </div>
@@ -597,6 +603,7 @@
         const data = await res.json();
         productsSha = data.content.sha;
         showToast('נשמר בהצלחה! השינויים יעלו תוך דקה');
+        createBackup('products');
       } catch (err) {
         console.error('Save error:', err);
         showToast('שגיאה בשמירה: ' + err.message);
@@ -1004,6 +1011,7 @@
         const data = await res.json();
         settingsSha = data.content.sha;
         showToast('ההגדרות נשמרו בהצלחה! השינויים יעלו תוך דקה');
+        createBackup('settings');
       } catch (err) {
         console.error('Settings save error:', err);
         showToast('שגיאה בשמירת הגדרות: ' + err.message);
@@ -1012,6 +1020,52 @@
       btn.disabled = false;
       btn.textContent = 'שמירת הגדרות';
     });
+
+    // --- Backup ---
+
+    async function createBackup(trigger = 'manual') {
+      const statusEl = document.getElementById('backupStatus');
+      const btn = document.getElementById('backupBtn');
+      try {
+        if (btn) btn.disabled = true;
+        if (statusEl) statusEl.textContent = 'מגבה...';
+
+        const now = new Date();
+        const pad = n => String(n).padStart(2, '0');
+        const ts = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}`;
+
+        const backup = {
+          timestamp: now.toISOString(),
+          trigger: trigger,
+          products: products,
+          settings: siteSettings
+        };
+
+        const content = utf8Base64Encode(JSON.stringify(backup, null, 2));
+        const filename = `backups/backup_${ts}.json`;
+
+        const res = await ghFetch(`contents/${filename}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: `Backup (${trigger}) ${ts}`, content })
+        });
+
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.message || 'HTTP ' + res.status);
+        }
+
+        if (statusEl) statusEl.textContent = `גיבוי אחרון: ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+        if (trigger === 'manual') showToast('גיבוי נשמר בהצלחה!');
+      } catch (err) {
+        console.error('Backup error:', err);
+        if (statusEl) statusEl.textContent = 'גיבוי נכשל';
+        if (trigger === 'manual') showToast('שגיאה בגיבוי: ' + err.message);
+      }
+      if (btn) btn.disabled = false;
+    }
+
+    document.getElementById('backupBtn').addEventListener('click', () => createBackup('manual'));
   </script>
 </body>
 </html>
