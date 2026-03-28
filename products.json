@@ -231,19 +231,6 @@
     ]
   },
   {
-    "id": 1774258568435,
-    "name": "עוגת גבינה ניו יורק",
-    "category": "cakes",
-    "categoryLabel": "עוגות",
-    "price": 320,
-    "description": "עוגת גבינה ניו יורק עשירה וקרמית. מסקרפונה, שוקולד לבן, גרגירי וניל אמיתי בציפוי שמנת חמוצה על בסיס בצק פריך \n*פירות בהתאם לעונה*",
-    "image": "images/product-1774258562129-dvc13-3.jpeg",
-    "images": [
-      "images/product-1774258562129-dvc13-3.jpeg",
-      "images/product-1774258566919-x5g2j-4.jpeg"
-    ]
-  },
-  {
     "id": 1774259105620,
     "name": "מארז שוקולדי",
     "category": "boxes",
@@ -255,6 +242,19 @@
       "images/product-1774259100790-jmb22-12.jpeg",
       "images/product-1774259103464-812yo-13.jpeg",
       "images/product-1774725957556-vdor0-10.jpeg"
+    ]
+  },
+  {
+    "id": 1774258568435,
+    "name": "עוגת גבינה ניו יורק",
+    "category": "cakes",
+    "categoryLabel": "עוגות",
+    "price": 320,
+    "description": "עוגת גבינה ניו יורק עשירה וקרמית. מסקרפונה, שוקולד לבן, גרגירי וניל אמיתי בציפוי שמנת חמוצה על בסיס בצק פריך \n*פירות בהתאם לעונה*",
+    "image": "images/product-1774258562129-dvc13-3.jpeg",
+    "images": [
+      "images/product-1774258562129-dvc13-3.jpeg",
+      "images/product-1774258566919-x5g2j-4.jpeg"
     ]
   },
   {
