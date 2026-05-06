@@ -313,18 +313,6 @@
     ]
   },
   {
-    "id": 1774260135167,
-    "name": "מארז בלונדי&שוקולד חלב",
-    "category": "boxes",
-    "categoryLabel": "מארזים",
-    "price": 399,
-    "description": "בראוניז 16X16 פאדג׳ מלח גס בלונדי&שוקולד חלב,  16 כדורי פאדג׳ בלונדי&שוקולד חלב, 20 יח׳ מגולגלות קינדר&נוטלה",
-    "image": "images/product-1774260132919-6jihy-2.jpeg",
-    "images": [
-      "images/product-1774260132919-6jihy-2.jpeg"
-    ]
-  },
-  {
     "id": 1778075720266,
     "name": "מיני קראמבל קוקיז",
     "category": "cookies",
@@ -334,6 +322,18 @@
     "image": "images/product-1778075717962-ijji5-4.jpeg",
     "images": [
       "images/product-1778075717962-ijji5-4.jpeg"
+    ]
+  },
+  {
+    "id": 1774260135167,
+    "name": "מארז בלונדי&שוקולד חלב",
+    "category": "boxes",
+    "categoryLabel": "מארזים",
+    "price": 399,
+    "description": "בראוניז 16X16 פאדג׳ מלח גס בלונדי&שוקולד חלב,  16 כדורי פאדג׳ בלונדי&שוקולד חלב, 20 יח׳ מגולגלות קינדר&נוטלה",
+    "image": "images/product-1774260132919-6jihy-2.jpeg",
+    "images": [
+      "images/product-1774260132919-6jihy-2.jpeg"
     ]
   },
   {
