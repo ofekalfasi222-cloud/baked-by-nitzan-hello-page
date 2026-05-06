@@ -132,18 +132,6 @@
     "badge": "הנמכר ביותר"
   },
   {
-    "id": 7,
-    "name": "מארז קייק פופס&בלונדי",
-    "category": "boxes",
-    "categoryLabel": "מארזים",
-    "price": 200,
-    "description": "12 יחידות קייק פופס פאדג׳ שוקולד בציפוי שוקולד חלב, 8 יחידות עוגיות שוקולד חלב&בלונדי(קוטר 8)",
-    "image": "images/product-1774256351564-63rxh-4.jpeg",
-    "images": [
-      "images/product-1774256351564-63rxh-4.jpeg"
-    ]
-  },
-  {
     "id": 1778075144159,
     "name": "ספיישל מגולגלות פרינגלס😍",
     "category": "cookies",
@@ -154,6 +142,18 @@
     "images": [
       "images/product-1778075139395-55jok-1.jpeg",
       "images/product-1778075142005-hucht-2.jpeg"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "מארז קייק פופס&בלונדי",
+    "category": "boxes",
+    "categoryLabel": "מארזים",
+    "price": 200,
+    "description": "12 יחידות קייק פופס פאדג׳ שוקולד בציפוי שוקולד חלב, 8 יחידות עוגיות שוקולד חלב&בלונדי(קוטר 8)",
+    "image": "images/product-1774256351564-63rxh-4.jpeg",
+    "images": [
+      "images/product-1774256351564-63rxh-4.jpeg"
     ]
   },
   {
