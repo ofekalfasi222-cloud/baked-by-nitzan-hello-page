@@ -56,6 +56,31 @@
     .btn-move { background: #f0f0f0; color: #333; font-size: 0.9rem; }
     .btn-move:hover { background: #ddd; }
     .btn-move:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn-preview { background: #f0fff0; color: #008800; border: none; width: 36px; height: 36px; border-radius: 8px; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+    .btn-preview:hover { background: #d8f0d8; }
+    .pos-input-wrap { display: flex; align-items: center; gap: 4px; background: #f0f0f0; padding: 4px 8px; border-radius: 8px; height: 36px; }
+    .pos-input-wrap label { font-size: 0.7rem; color: #666; }
+    .pos-input { width: 38px; padding: 4px 6px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.85rem; font-family: inherit; text-align: center; }
+    .pos-input:focus { outline: none; border-color: #000; }
+    .product-item-category-badge { background: #fff8dc; color: #8b6914; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 500; margin-right: 6px; }
+    .save-status { font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-right: 12px; }
+    .save-status.saving { color: #ffaa00; }
+    .save-status.saved { color: #66ff66; }
+    .preview-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 250; align-items: center; justify-content: center; padding: 20px; }
+    .preview-overlay.active { display: flex; }
+    .preview-box { background: #fff; border-radius: 16px; max-width: 380px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; direction: rtl; }
+    .preview-close { position: absolute; top: 12px; left: 12px; width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(0,0,0,0.5); color: #fff; cursor: pointer; font-size: 1.2rem; z-index: 10; display: flex; align-items: center; justify-content: center; }
+    .preview-info-banner { background: #fff8dc; padding: 10px 16px; font-size: 0.8rem; color: #8b6914; text-align: center; border-bottom: 1px solid #eee; }
+    .preview-card-image { width: 100%; aspect-ratio: 1; object-fit: cover; background: #f5f5f5; display: block; }
+    .preview-card-content { padding: 24px; position: relative; }
+    .preview-card-category { font-size: 0.75rem; letter-spacing: 0.1em; color: #888; text-transform: uppercase; margin-bottom: 6px; }
+    .preview-card-title { font-family: "Frank Ruhl Libre", serif; font-size: 1.5rem; font-weight: 900; margin-bottom: 12px; line-height: 1.2; }
+    .preview-card-description { color: #555; line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem; white-space: pre-wrap; }
+    .preview-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid #eee; }
+    .preview-card-price { font-family: "Frank Ruhl Libre", serif; font-size: 1.5rem; font-weight: 900; }
+    .preview-card-price-note { font-size: 0.6em; font-weight: 400; color: #999; margin-right: 4px; }
+    .preview-card-order { background: #000; color: #fff; padding: 10px 20px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; text-decoration: none; }
+    .preview-card-badge { display: inline-block; background: #000; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-bottom: 8px; }
 
     .form-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
     .form-overlay.active { display: flex; }
@@ -149,6 +174,7 @@
       <h1>ניהול קטלוג - ניצן משהו מתוק</h1>
       <div class="admin-header-actions">
         <span class="backup-status" id="backupStatus"></span>
+        <span class="save-status" id="saveStatus"></span>
         <button class="btn-backup" id="backupBtn" title="גיבוי ידני">💾 גיבוי</button>
         <a href="index.html" class="btn-back-site" target="_blank">צפייה באתר</a>
         <button class="btn-logout" id="logoutBtn">התנתקות</button>
@@ -429,6 +455,24 @@
     <p>שומר שינויים...</p>
   </div>
 
+  <div class="preview-overlay" id="previewOverlay">
+    <div class="preview-box" id="previewBox">
+      <button class="preview-close" id="previewClose">&times;</button>
+      <div class="preview-info-banner">📱 ככה הכרטיס יראה ללקוחות באתר</div>
+      <img class="preview-card-image" id="previewImage" src="" alt="">
+      <div class="preview-card-content">
+        <div class="preview-card-category" id="previewCategory"></div>
+        <span class="preview-card-badge" id="previewBadge" style="display:none;"></span>
+        <h3 class="preview-card-title" id="previewTitle"></h3>
+        <p class="preview-card-description" id="previewDescription"></p>
+        <div class="preview-card-footer">
+          <span class="preview-card-price" id="previewPrice"></span>
+          <span class="preview-card-order">להזמנה</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast"></div>
 
   <script>
@@ -661,40 +705,119 @@
       if (products.length === 0) { empty.style.display = 'block'; return; }
       empty.style.display = 'none';
 
+      // Compute category position for each product (1-based, within its category)
+      const categoryCounts = {};
+      const categoryPositions = products.map(p => {
+        const cat = p.category;
+        categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+        return categoryCounts[cat];
+      });
+      const categoryTotals = {...categoryCounts};
+
       products.forEach((p, i) => {
         const imgs = p.images || (p.image ? [p.image] : []);
         const rawThumb = imgs[0] || '';
         const thumb = rawThumb ? (rawThumb.startsWith('http') ? rawThumb : `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${rawThumb}?v=${Date.now()}`) : 'images/logo.png';
         const imgCount = imgs.length > 1 ? ` (${imgs.length} תמונות)` : '';
+        const catLabel = p.categoryLabel || p.category;
+        const catPos = categoryPositions[i];
+        const catTotal = categoryTotals[p.category];
+        const isFirstInCat = catPos === 1;
+        const isLastInCat = catPos === catTotal;
         const item = document.createElement('div');
         item.className = 'product-item';
         item.innerHTML = `
           <img src="${esc(thumb)}" alt="${esc(p.name)}" onerror="this.src='images/logo.png'">
-          <div class="product-item-info"><h3>${esc(p.name)}${imgCount}</h3><p>${esc(p.description)}</p></div>
+          <div class="product-item-info">
+            <h3>${esc(p.name)}${imgCount}</h3>
+            <p><span class="product-item-category-badge">${esc(catLabel)} ${catPos}/${catTotal}</span>${esc(p.description)}</p>
+          </div>
           <div class="product-item-meta">
             <span class="product-item-price">${p.maxPrice ? p.price + '-' + p.maxPrice : p.price} &#8362;</span>
             ${p.priceNote ? `<span class="product-item-badge">${esc(p.priceNote)}</span>` : ''}
             ${p.badge ? `<span class="product-item-badge">${esc(p.badge)}</span>` : ''}
           </div>
           <div class="product-item-actions">
-            <button class="btn-move" onclick="moveProduct(${i},-1)" title="העבר למעלה" ${i === 0 ? 'disabled' : ''}>&#9650;</button>
-            <button class="btn-move" onclick="moveProduct(${i},1)" title="העבר למטה" ${i === products.length - 1 ? 'disabled' : ''}>&#9660;</button>
-            <button class="btn-edit" onclick="openForm(${i})">&#9998;</button>
-            <button class="btn-delete" onclick="deleteProduct(${i})">&#128465;</button>
+            <button class="btn-move" onclick="moveProductInCategory(${i},-1)" title="העלי בקטגוריה" ${isFirstInCat ? 'disabled' : ''}>&#9650;</button>
+            <button class="btn-move" onclick="moveProductInCategory(${i},1)" title="הורידי בקטגוריה" ${isLastInCat ? 'disabled' : ''}>&#9660;</button>
+            <div class="pos-input-wrap" title="מיקום בקטגוריה ${esc(catLabel)}">
+              <label>#</label>
+              <input class="pos-input" type="number" min="1" max="${catTotal}" value="${catPos}" onchange="setProductCategoryPos(${i}, this.value)">
+            </div>
+            <button class="btn-preview" onclick="previewProduct(${i})" title="תצוגה מקדימה">&#128065;</button>
+            <button class="btn-edit" onclick="openForm(${i})" title="עריכה">&#9998;</button>
+            <button class="btn-delete" onclick="deleteProduct(${i})" title="מחיקה">&#128465;</button>
           </div>
         `;
         list.appendChild(item);
       });
     }
 
-    async function moveProduct(index, direction) {
-      const newIndex = index + direction;
-      if (newIndex < 0 || newIndex >= products.length) return;
+    // --- Debounced save: instant UI, save 1.5s after last move ---
+    let _saveTimeout = null;
+    function setSaveStatus(state) {
+      const el = document.getElementById('saveStatus');
+      if (!el) return;
+      el.classList.remove('saving', 'saved');
+      if (state === 'pending') { el.textContent = '⏳ ממתין לשמירה...'; el.classList.add('saving'); }
+      else if (state === 'saving') { el.textContent = '💾 שומר...'; el.classList.add('saving'); }
+      else if (state === 'saved') { el.textContent = '✓ נשמר'; el.classList.add('saved'); setTimeout(() => { if (el.textContent === '✓ נשמר') el.textContent = ''; }, 3000); }
+      else { el.textContent = ''; }
+    }
+    function debouncedSaveProducts(delay = 1500) {
+      setSaveStatus('pending');
+      if (_saveTimeout) clearTimeout(_saveTimeout);
+      _saveTimeout = setTimeout(async () => {
+        _saveTimeout = null;
+        setSaveStatus('saving');
+        await saveProducts();
+        setSaveStatus('saved');
+      }, delay);
+    }
+    window.addEventListener('beforeunload', (e) => {
+      if (_saveTimeout) {
+        e.preventDefault();
+        e.returnValue = 'יש שינויים שטרם נשמרו. עזיבה תאבד אותם.';
+      }
+    });
+
+    // Move within category - instant UI update, debounced save
+    function moveProductInCategory(index, direction) {
+      const cat = products[index].category;
+      const sameCatIndices = products.map((p, i) => p.category === cat ? i : -1).filter(i => i !== -1);
+      const posInCat = sameCatIndices.indexOf(index);
+      const targetPos = posInCat + direction;
+      if (targetPos < 0 || targetPos >= sameCatIndices.length) return;
+      const targetGlobal = sameCatIndices[targetPos];
       const temp = products[index];
-      products[index] = products[newIndex];
-      products[newIndex] = temp;
+      products[index] = products[targetGlobal];
+      products[targetGlobal] = temp;
       renderProductList();
-      await saveProducts();
+      debouncedSaveProducts();
+    }
+
+    // Set product position by typing number
+    function setProductCategoryPos(index, newPosStr) {
+      const newPos = parseInt(newPosStr);
+      if (isNaN(newPos) || newPos < 1) { renderProductList(); return; }
+      const cat = products[index].category;
+      const sameCatIndices = products.map((p, i) => p.category === cat ? i : -1).filter(i => i !== -1);
+      if (newPos > sameCatIndices.length) { renderProductList(); return; }
+      const targetGlobal = sameCatIndices[newPos - 1];
+      if (targetGlobal === index) return;
+      // Remove from current position
+      const item = products.splice(index, 1)[0];
+      // Recompute target index after removal
+      const newSameCatIndices = products.map((p, i) => p.category === cat ? i : -1).filter(i => i !== -1);
+      const insertAt = newPos - 1 < newSameCatIndices.length ? newSameCatIndices[newPos - 1] : products.length;
+      products.splice(insertAt, 0, item);
+      renderProductList();
+      debouncedSaveProducts();
+    }
+
+    // Backwards-compat (still used elsewhere)
+    async function moveProduct(index, direction) {
+      moveProductInCategory(index, direction);
     }
 
     // --- Form ---
@@ -891,7 +1014,13 @@
         if (editingIndex !== null) {
           products[editingIndex] = productData;
         } else {
-          products.push(productData);
+          // New products go to the top of their category
+          const firstIdxInCat = products.findIndex(p => p.category === productData.category);
+          if (firstIdxInCat === -1) {
+            products.unshift(productData);
+          } else {
+            products.splice(firstIdxInCat, 0, productData);
+          }
         }
 
         saveBtn.textContent = 'שומר...';
@@ -905,6 +1034,33 @@
 
       saveBtn.disabled = false;
       saveBtn.textContent = 'שמירה';
+    });
+
+    function previewProduct(index) {
+      const p = products[index];
+      const imgs = p.images || (p.image ? [p.image] : []);
+      const rawImg = imgs[0] || '';
+      const imgUrl = rawImg ? (rawImg.startsWith('http') ? rawImg : `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${rawImg}?v=${Date.now()}`) : 'images/logo.png';
+      document.getElementById('previewImage').src = imgUrl;
+      document.getElementById('previewImage').alt = p.name;
+      document.getElementById('previewCategory').textContent = p.categoryLabel || p.category;
+      document.getElementById('previewTitle').textContent = p.name;
+      document.getElementById('previewDescription').textContent = p.description || '';
+      const priceStr = p.maxPrice ? `${p.price}-${p.maxPrice}` : `${p.price}`;
+      const note = p.priceNote ? ` <span class="preview-card-price-note">(${esc(p.priceNote)})</span>` : '';
+      document.getElementById('previewPrice').innerHTML = `${priceStr} ₪${note}`;
+      const badgeEl = document.getElementById('previewBadge');
+      if (p.badge) { badgeEl.textContent = p.badge; badgeEl.style.display = 'inline-block'; }
+      else { badgeEl.style.display = 'none'; }
+      document.getElementById('previewOverlay').classList.add('active');
+    }
+    document.getElementById('previewClose').addEventListener('click', () => {
+      document.getElementById('previewOverlay').classList.remove('active');
+    });
+    document.getElementById('previewOverlay').addEventListener('click', (e) => {
+      if (e.target.id === 'previewOverlay') {
+        document.getElementById('previewOverlay').classList.remove('active');
+      }
     });
 
     function deleteProduct(index) {
