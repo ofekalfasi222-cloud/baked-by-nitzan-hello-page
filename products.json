@@ -79,19 +79,6 @@
     "badge": "VIP"
   },
   {
-    "id": 11,
-    "name": "מארז פרימיום",
-    "category": "boxes",
-    "categoryLabel": "מארזים",
-    "price": 340,
-    "description": "חיתוכיות כדורי שוקולד בציפוי גנאש וזילוף שוקולד לבן, 5 יח׳ כדורי דובאי, 14 יח׳ מגולגלות נוטלה ו5 יח׳ קראמבל קוקיז פיסטוק",
-    "image": "images/product-1774233193707-tsbhv-1.jpeg",
-    "images": [
-      "images/product-1774233193707-tsbhv-1.jpeg"
-    ],
-    "badge": "פרימיום"
-  },
-  {
     "id": 1778075144159,
     "name": "ספיישל מגולגלות פרינגלס😍",
     "category": "cookies",
@@ -103,6 +90,19 @@
       "images/product-1778075139395-55jok-1.jpeg",
       "images/product-1778075142005-hucht-2.jpeg"
     ]
+  },
+  {
+    "id": 11,
+    "name": "מארז פרימיום",
+    "category": "boxes",
+    "categoryLabel": "מארזים",
+    "price": 340,
+    "description": "חיתוכיות כדורי שוקולד בציפוי גנאש וזילוף שוקולד לבן, 5 יח׳ כדורי דובאי, 14 יח׳ מגולגלות נוטלה ו5 יח׳ קראמבל קוקיז פיסטוק",
+    "image": "images/product-1774233193707-tsbhv-1.jpeg",
+    "images": [
+      "images/product-1774233193707-tsbhv-1.jpeg"
+    ],
+    "badge": "פרימיום"
   },
   {
     "id": 1774257014678,
