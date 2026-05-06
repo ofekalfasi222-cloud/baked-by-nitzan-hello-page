@@ -156,18 +156,6 @@
     ]
   },
   {
-    "id": 9,
-    "name": "מארז עוגייה ענקית ומגולגלות",
-    "category": "boxes",
-    "categoryLabel": "מארזים",
-    "price": 299,
-    "description": "עוגייה ענקית קוטר 16 עם תוספות ומילוי לבחירה,  16 יח' מגולגלות קקאו קינדר (ניתן להחליף למגולגלות בטעם אחר).",
-    "image": "images/box-giant-cookie.png",
-    "images": [
-      "images/box-giant-cookie.png"
-    ]
-  },
-  {
     "id": 1778075144159,
     "name": "ספיישל מגולגלות פרינגלס😍",
     "category": "cookies",
@@ -178,6 +166,18 @@
     "images": [
       "images/product-1778075139395-55jok-1.jpeg",
       "images/product-1778075142005-hucht-2.jpeg"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "מארז עוגייה ענקית ומגולגלות",
+    "category": "boxes",
+    "categoryLabel": "מארזים",
+    "price": 299,
+    "description": "עוגייה ענקית קוטר 16 עם תוספות ומילוי לבחירה,  16 יח' מגולגלות קקאו קינדר (ניתן להחליף למגולגלות בטעם אחר).",
+    "image": "images/box-giant-cookie.png",
+    "images": [
+      "images/box-giant-cookie.png"
     ]
   },
   {
