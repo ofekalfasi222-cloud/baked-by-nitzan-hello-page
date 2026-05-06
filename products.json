@@ -13,6 +13,18 @@
     ]
   },
   {
+    "id": 1778075720266,
+    "name": "מיני קראמבל קוקיז",
+    "category": "cookies",
+    "categoryLabel": "עוגיות",
+    "price": 59,
+    "description": "עוגיות מיני שמנמנות קריספיות מבחוץ רכות מבפנים. \nיש אופציה לטעמים נוספים בתיאום בוואצפ לפי המלאי הזמין .",
+    "image": "images/product-1778075717962-ijji5-4.jpeg",
+    "images": [
+      "images/product-1778075717962-ijji5-4.jpeg"
+    ]
+  },
+  {
     "id": 1774256692519,
     "name": "מיקס מגולגלות 3 טעמים",
     "category": "cookies",
@@ -228,18 +240,6 @@
     "image": "images/product-1774257686788-8xgjo-1.jpeg",
     "images": [
       "images/product-1774257686788-8xgjo-1.jpeg"
-    ]
-  },
-  {
-    "id": 1778075720266,
-    "name": "מיני קראמבל קוקיז",
-    "category": "cookies",
-    "categoryLabel": "עוגיות",
-    "price": 59,
-    "description": "עוגיות מיני שמנמנות קריספיות מבחוץ רכות מבפנים. \nיש אופציה לטעמים נוספים בתיאום בוואצפ לפי המלאי הזמין .",
-    "image": "images/product-1778075717962-ijji5-4.jpeg",
-    "images": [
-      "images/product-1778075717962-ijji5-4.jpeg"
     ]
   },
   {
