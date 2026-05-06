@@ -13,18 +13,6 @@
     "badge": "פופולרי"
   },
   {
-    "id": 1,
-    "name": "האלפחורס  שלי",
-    "category": "cookies",
-    "categoryLabel": "עוגיות",
-    "price": 60,
-    "description": "10 יחידות אלפחורס עם מילוי ריבת חלב איכותית וקוקוס.",
-    "image": "images/product-1774227278674.jpeg",
-    "images": [
-      "images/product-1774227278674.jpeg"
-    ]
-  },
-  {
     "id": 1778075144159,
     "name": "ספיישל מגולגלות פרינגלס😍",
     "category": "cookies",
@@ -35,6 +23,18 @@
     "images": [
       "images/product-1778075139395-55jok-1.jpeg",
       "images/product-1778075142005-hucht-2.jpeg"
+    ]
+  },
+  {
+    "id": 1,
+    "name": "האלפחורס  שלי",
+    "category": "cookies",
+    "categoryLabel": "עוגיות",
+    "price": 60,
+    "description": "10 יחידות אלפחורס עם מילוי ריבת חלב איכותית וקוקוס.",
+    "image": "images/product-1774227278674.jpeg",
+    "images": [
+      "images/product-1774227278674.jpeg"
     ]
   },
   {
